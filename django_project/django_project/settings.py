@@ -127,13 +127,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
 
-STATIC_ROOT = '/blog/static'
+STATIC_ROOT = '/vol/web/static'
+MEDIA_ROOT = '/home/luis/django-blog/django_project/media'
 
-#donde se guardaran las imagenes cargadas
-MEDIA_ROOT=os.path.join(BASE_DIR, 'media')
 
-MEDIA_URL='/media/'
+
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -153,4 +155,3 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.getenv('EMAIL_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASS')
 
-SECURE_SSL_REDIRECT = False

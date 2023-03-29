@@ -24,15 +24,17 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /tmp/* /var/tmp/* /root/.cache/*
 
+RUN pip install uwsgi
+
 
 RUN mkdir /app
 COPY ./django_project /app
 WORKDIR /app
 COPY ./scripts /scripts
 
-RUN chmod +X /scripts/*
+RUN chmod +x /scripts/entrypoint.sh
 
-RUN mkdir -p /vol/web/media
+RUN mkdir -p /app/media
 RUN mkdir -p /vol/web/static
 
 
@@ -41,7 +43,8 @@ RUN chown -R user:user /vol
 RUN chmod -R 755 /vol/web
 USER user 
 
-CMD ["entrypoint.sh"]
+
+CMD ["/scripts/entrypoint.sh"]
 
 
 

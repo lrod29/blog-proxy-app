@@ -1,0 +1,27 @@
+version: '3.10'
+
+services:
+  app:
+    build:
+      context: .
+    volumes:
+      - static_data:/vol/web/static
+      - media_data:/app/media
+    environment:
+      - SECRET_KEY=samplekey
+      - ALLOWED_HOSTS=127.0.0.1,localhost
+
+  proxy:
+    build:
+      context: ./proxy
+    volumes:
+      - static_data:/vol/static
+      - media_data:/vol/media/
+    ports:
+      - "8080:8080"
+    depends_on:
+      - app
+
+volumes:
+  static_data:
+  media_data:
