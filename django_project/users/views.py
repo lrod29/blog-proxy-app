@@ -4,12 +4,19 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 
+from django.core.files.images import ImageFile
+
 def register(request):
     if request.method == 'POST':
-        form= UserRegisterForm(request.POST)
+        form= UserRegisterForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            username=form.cleaned_data.get('username')
+            user = form.save(commit=False)
+            if request.FILES:
+                image = request.FILES.get('image')
+                if image:
+                    user.profile.image.save(image.name, ImageFile(image))
+            user.save()
+            username=user.username
             messages.success(request, f'Account created for {username}!')
             return redirect('blog-home')
     else:   

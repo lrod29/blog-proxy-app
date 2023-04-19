@@ -29,10 +29,12 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(int(os.environ.get('DEBUG', 0)))
 
-ALLOWED_HOSTS = []
-ALLOWED_HOSTS_ENV = os.environ.get('ALLOWED_HOSTS')
-if ALLOWED_HOSTS_ENV:
-    ALLOWED_HOSTS.extend(ALLOWED_HOSTS_ENV.split(','))
+
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '172.20.1.53', '*', '172.25.0.3',   
+                 '0.0.0.0', '172.25.0.2']
+# ALLOWED_HOSTS_ENV = os.environ.get('ALLOWED_HOSTS')
+# if ALLOWED_HOSTS_ENV:
+#     ALLOWED_HOSTS.extend(ALLOWED_HOSTS_ENV.split(','))
 
 
 # Application definition
@@ -84,10 +86,21 @@ WSGI_APPLICATION = 'django_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.getenv('NAME'),
+        'USER': os.getenv('USER'),
+        'PASSWORD': os.getenv('PASSWORD'),
+        'HOST': os.getenv('HOST'),
+        'PORT': os.getenv('PORT'),
     }
 }
 
@@ -127,15 +140,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_URL = '/media/'
-
 STATIC_ROOT = '/vol/web/static'
-MEDIA_ROOT = '/home/luis/django-blog/django_project/media'
 
-
-
-
-
+MEDIA_URL = '/media/'
+MEDIA_ROOT = '/app/media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -154,4 +162,3 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.getenv('EMAIL_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASS')
-
